@@ -31,7 +31,6 @@ httpcore==1.0.9
 httpx==0.28.1
 httpx-sse==0.4.0
 idna==3.10
-ipykernel==6.29.5
 ipython==9.3.0
 ipython_pygments_lexers==1.1.1
 jedi==0.19.2
@@ -61,8 +60,6 @@ matplotlib-inline==0.1.7
 multidict==6.4.4
 mypy_extensions==1.1.0
 narwhals==1.42.1
-neo4j==5.28.1
-neo4j-graphrag==1.7.0
 nest-asyncio==1.6.0
 networkx==3.5
 numpy==2.3.0
@@ -90,7 +87,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
 pytz==2025.2
 pyvis==0.3.2
-pywin32==310
 PyYAML==6.0.2
 pyzmq==27.0.0
 referencing==0.36.2

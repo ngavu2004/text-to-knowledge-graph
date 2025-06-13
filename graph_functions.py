@@ -1,7 +1,6 @@
 from langchain_experimental.graph_transformers import LLMGraphTransformer
 from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
-from dotenv import load_dotenv
 import networkx as nx
 import os
 import colorsys
