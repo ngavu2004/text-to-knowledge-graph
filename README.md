@@ -5,6 +5,9 @@ A Streamlit app that uses GPT (via LangChain) to extract a knowledge graph from 
 #### 🚀 Try the demo:
 https://text-to-knowledge-graph.streamlit.app/
 
+(Note: the main dev is poor so if you cannot test this out, it means she ran out of OpenAI credit. You can wait for her to deploy a model herself or reproduce the project with the instructions below.)
+
+
 ## Features
 
 - Paste any descriptive text and generate a knowledge graph using GPT-4.
