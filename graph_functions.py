@@ -1,6 +1,7 @@
 from langchain_experimental.graph_transformers import LLMGraphTransformer
 from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import networkx as nx
 import os
 import colorsys
@@ -14,6 +15,11 @@ llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo")
 
 llm_transformer = LLMGraphTransformer(llm=llm)
 
+async def extract_kg_from_text_chunk(chunk):
+    document = Document(page_content=chunk)
+    graph_document = await llm_transformer.aconvert_to_graph_documents([document])
+    return graph_document[0].nodes, graph_document[0].relationships
+
 async def extract_kg_from_text(text):
     """
     Extracts a knowledge graph from the provided text using GPT.
@@ -24,10 +30,23 @@ async def extract_kg_from_text(text):
     Returns:
         tuple: A tuple containing two lists - nodes and relationships.
     """
-    documents = [Document(page_content=text)]
-    graph_documents = await llm_transformer.aconvert_to_graph_documents(documents)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
+    chunks = splitter.split_text(text)
 
-    return graph_documents[0].nodes, graph_documents[0].relationships
+    all_nodes = []
+    all_relationships = []
+
+    # Process each chunk separately
+    for chunk in chunks:
+        nodes, relationships = await extract_kg_from_text_chunk(chunk)
+        all_nodes.extend(nodes)
+        all_relationships.extend(relationships)
+
+    # Deduplicate nodes and relationships
+    all_nodes = [(n.id, n.type) for n in all_nodes]
+    all_relationships = [(r.source.id, r.target.id, r.type) for r in all_relationships]
+
+    return all_nodes, all_relationships
 
 def parse_nodes(nodes):
     return [(node.id, node.type) for node in nodes]
