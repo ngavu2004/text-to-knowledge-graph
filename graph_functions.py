@@ -3,12 +3,14 @@ from langchain_openai import ChatOpenAI
 from langchain_core.documents import Document
 from dotenv import load_dotenv
 import networkx as nx
+import os
 import colorsys
 import tempfile
+import streamlit as st
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
-load_dotenv()
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 llm = ChatOpenAI(temperature=0, model_name="gpt-4-turbo")
 
 llm_transformer = LLMGraphTransformer(llm=llm)
@@ -82,7 +84,7 @@ def draw_kg_image(nodes, edges):
     # Draw nodes with different colors based on type
     node_colors = []
     color_map = generate_color_map([node[1]['type'] for node in G.nodes(data=True)])
-    
+
     # Assign colors to nodes based on their type
     for node in G.nodes(data=True):
         node_type = node[1]['type']
